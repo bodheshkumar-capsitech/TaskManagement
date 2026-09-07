@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.custom-toast {
+  min-height: 56px !important;
+  width: 360px !important;
+  background: #ffffff !important;
+  border: 1px solid #6ee7b7 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  padding: 6 !important;
+  color: #0f172a !important;
+}
+
+.custom-toast-body {
+  margin: 0 !important;
+  padding: 0 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  font-size: 14px !important;
+  color: #0f172a !important;
+}
