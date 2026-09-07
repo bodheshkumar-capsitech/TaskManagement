@@ -398,7 +398,7 @@ namespace Projects.Controllers
         #region Register
         [HttpPost("Register")]
         [AllowAnonymous]
-        [RequireHttps]
+        //[RequireHttps]
         public async Task<ApiResponse<bool>> RegisterUser([FromBody] UserRegisterRequest req)
         {
             ApiResponse<bool> response = new ApiResponse<bool>();
