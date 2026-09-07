@@ -215,18 +215,18 @@ namespace Projects
             });
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCors(p => p
-    .WithOrigins(
-        "http://localhost:5173",
-        "https://task-management-eta-bice.vercel.app"
-    )
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-    .AllowCredentials()
-    .SetPreflightMaxAge(TimeSpan.FromSeconds(600))
-    .WithExposedHeaders("Content-Disposition"));
-
             app.UseRouting();
+            app.UseCors(p => p
+     .WithOrigins(
+         "http://localhost:5173",
+         "https://task-management-bodhesh.vercel.app"
+     )
+     .AllowAnyMethod()
+     .AllowAnyHeader()
+     .AllowCredentials()
+     .SetPreflightMaxAge(TimeSpan.FromSeconds(600))
+     .WithExposedHeaders("Content-Disposition"));
+
 
             //app.UseCors("ReactApp");
             app.UseAuthentication();
