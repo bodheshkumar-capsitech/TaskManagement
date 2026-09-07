@@ -71,7 +71,7 @@ const TodoForm = ({ onAdd }: TodoFormProps) => {
         </Button>
       </DialogTrigger>
 
-      <DialogSurface>
+      <DialogSurface className="!mx-2 sm:!mx-auto">
         <form
           onSubmit={(e) => {
             if (validateForm()) {

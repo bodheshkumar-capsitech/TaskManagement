@@ -80,8 +80,8 @@ const ProjectForm = ({
   
   return (
     <div>
-      <Button appearance="primary" icon={<AddRegular />} onClick={handleOpenNew} className="!bg-[#4F46E5] !rounded-xl">
-        New Project
+      <Button appearance="primary" onClick={handleOpenNew} className="!bg-[#4F46E5] !rounded-xl">
+        + New Project
       </Button>
 
       <Dialog
@@ -94,7 +94,7 @@ const ProjectForm = ({
           }
         }}
       >
-        <DialogSurface>
+       <DialogSurface className="!mx-2 sm:!mx-auto">
           <DialogBody>
             <DialogTitle>{editingId ? "Edit Project" : "Create Project"}</DialogTitle>
 
