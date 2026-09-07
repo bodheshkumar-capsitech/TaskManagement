@@ -44,6 +44,8 @@ node_modules/
 dist/
 .env
 .env.local
+.env.development
+.env.production
 # Visual Studio 2017 auto generated files
 Generated\ Files/
 
