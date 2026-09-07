@@ -213,7 +213,7 @@ namespace Projects
                 //context.Response.Headers.Add("Content-Security-Policy", "self");
                 await next();
             });
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCors(p => p
                 .AllowAnyMethod()
