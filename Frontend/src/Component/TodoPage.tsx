@@ -87,7 +87,7 @@ const TodoPage = ({
     };
 
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-3 items-center gap-3 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 items-center gap-3 mb-4">
             <div className="col-span-2 sm:col-span-1 flex flex-row justify-center sm:justify-start">
                 <Button
                     appearance="transparent"
@@ -154,6 +154,7 @@ const TodoPage = ({
                     onSelectDate={(selectedDate) => {
                         onDateChange(selectedDate ?? null);
                     }}
+                    className="!w-[140px] sm:!w-auto"
                 />
             </div>
         </div>
