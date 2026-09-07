@@ -80,7 +80,7 @@ const TaskStatusCard = ({ data }: TaskStatusCardProps) => {
           {data.map((s) => {
             const percent = Math.round((s.value / total) * 100);
             return (
-              <div key={s.label} className="flex items-center gap-2 text-sm">
+              <div key={s.label} className="flex sm:flex-row flex-col sm:items-center items-start gap-2 text-sm">
                 <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: s.color }} />
                 <span className="text-gray-700 w-24">{s.label}</span>
                 <span className="text-gray-400">{s.value} ({percent}%)</span>
