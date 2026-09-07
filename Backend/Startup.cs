@@ -216,12 +216,15 @@ namespace Projects
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCors(p => p
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .SetIsOriginAllowed(_ => true) // allow any origin
-                .AllowCredentials()
-                .SetPreflightMaxAge(TimeSpan.FromSeconds(600))
-                .WithExposedHeaders("Content-Disposition"));
+    .WithOrigins(
+        "http://localhost:5173",
+        "https://task-management-eta-bice.vercel.app"
+    )
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials()
+    .SetPreflightMaxAge(TimeSpan.FromSeconds(600))
+    .WithExposedHeaders("Content-Disposition"));
 
             app.UseRouting();
 
