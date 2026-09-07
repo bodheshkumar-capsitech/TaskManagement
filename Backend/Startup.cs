@@ -195,14 +195,14 @@ namespace Projects
 
         public void Configure(WebApplication app, IHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
                     c.DocExpansion(DocExpansion.None); // set default close all the tabs and sections
                 });
-            }
+            //}
 
             app.Use(async (context, next) =>
             {
