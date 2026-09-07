@@ -598,7 +598,7 @@ const Home = () => {
 
   return (
     <div className="h-full p-2 flex flex-col overflow-hidden">
-      <div className="flex sm:flex-row flex-col justify-between items-center mb-4 gap-2 w-full shrink-0">
+      <div className="flex flex-row justify-between items-center mb-3 gap-4 w-full shrink-0">
         <Button appearance="subtle" shape="circular" aria-label="Go back" icon={<ArrowLeft24Regular />}
           onClick={() => navigate(-1)}>Back</Button>
         <h1 className="text-2xl font-bold">

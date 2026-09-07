@@ -73,8 +73,8 @@ const TodoList = ({
   }
 
   return (
-    <div className="flex flex-col gap-4 mb-10 h-full overflow-hidden">
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:items-center sm:justify-between shrink-0">
+    <div className="flex flex-col gap-4 mb-10 h-full overflow-y-auto">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:items-center sm:justify-between">
         <div>{input}</div>
         <Dropdown
           placeholder="Select status"
@@ -112,7 +112,7 @@ const TodoList = ({
 
 
       </div>
-      <div className="flex-1 overflow-y-auto hide-scrollbar min-h-0">
+      <div className="flex-1 hide-scrollbar min-h-0">
 
         {todos.length === 0 ? (
           <h2>No Todos Found</h2>

@@ -87,8 +87,8 @@ const TodoPage = ({
     };
 
     return (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-8">
-            <div className="flex flex-row">
+        <div className="grid grid-cols-2 sm:grid-cols-3 items-center gap-3 mb-8">
+            <div className="col-span-2 sm:col-span-1 flex flex-row justify-center sm:justify-start">
                 <Button
                     appearance="transparent"
                     disabled={page === 1}
@@ -125,14 +125,15 @@ const TodoPage = ({
                     {page}/{totalPages}
                 </div>
             </div>
-            <div className="relative" ref={filterRef}>
-                <Button onClick={() =>
-                    setShowCalendar(prev => !prev)
-                }
-                    className="!rounded-xl"
-                >
-                    Select Month
-                </Button>
+                <div className="relative flex justify-start sm:justify-center" ref={filterRef}>
+                    <Button onClick={() =>
+                        setShowCalendar(prev => !prev)
+                    }
+                        className="!rounded-xl"
+                    >
+                        Select Month
+                    </Button>
+                </div>
                 {showCalendar
                     &&
                     <div className="absolute z-50 left-1/2 -translate-x-1/2 m-2 top-full">
@@ -145,16 +146,16 @@ const TodoPage = ({
                             className="absolute z-50 top-full bg-[#EEF2FF] border-[#4F46E5] border-1 left-1/2 -translate-x-1/2 rounded-2xl" />
                     </div>
                 }
+            <div className="flex justify-end">
+                <DatePicker
+                    placeholder="Select a date..."
+                    value={date}
+                    // minDate={new Date()}
+                    onSelectDate={(selectedDate) => {
+                        onDateChange(selectedDate ?? null);
+                    }}
+                />
             </div>
-
-            <DatePicker
-                placeholder="Select a date..."
-                value={date}
-                // minDate={new Date()}
-                onSelectDate={(selectedDate) => {
-                    onDateChange(selectedDate ?? null);
-                }}
-            />
         </div>
     );
 };
