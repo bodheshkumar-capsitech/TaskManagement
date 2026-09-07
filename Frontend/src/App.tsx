@@ -23,7 +23,7 @@ function App() {
       <Provider store={store}>
         <BrowserRouter>
           <QueryClientProvider client={queryclient}>
-            <Suspense fallback={<div className="flex items-center justify-center text-4xl mt-2">Loading...</div>}>
+            <Suspense fallback={<div className="flex items-center justify-center text-4xl mt-10">Loading...</div>}>
               <Routes>
                 <Route
                   path="/"

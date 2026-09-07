@@ -37,7 +37,13 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }, []);
 
   if (authenticated === null) {
-    return <div>Checking authentication...</div>;
+    return <div className="flex items-center justify-center h-full w-full">
+      <div>
+       <h1 className="flex text-2xl items-center justify-center mt-10">
+       Checking authentication...
+        </h1> 
+        </div>
+        </div>;
   }
 
   if (!authenticated) {
