@@ -321,7 +321,7 @@ const LoginPage = (props: Partial<SpinnerProps>) => {
               font-semibold
             "
             >
-              {loginMutation.isPending ? (<> <Spinner size="tiny"/> Signin...</>) : "Sign in"}
+              {loginMutation.isPending ? (<div className="flex items-center gap-2"> <Spinner size="tiny"/> Signin...</div>) : "Sign in"}
             </Button>
 
             <div className="text-center text-[14px] text-[#64748b] mt-0 mb-4">
