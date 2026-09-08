@@ -88,7 +88,7 @@ const TodoPage = ({
 
     return (
         <div className="grid grid-cols-2 sm:grid-cols-3 items-center gap-3 mb-4">
-            <div className="col-span-2 sm:col-span-1 flex flex-row justify-center sm:justify-start">
+            <div className="col-span-2 sm:col-span-1 flex flex-row justify-center sm:justify-start items-center">
                 <Button
                     appearance="transparent"
                     disabled={page === 1}
@@ -126,14 +126,9 @@ const TodoPage = ({
                 </div>
             </div>
                 <div className="relative flex justify-start sm:justify-center" ref={filterRef}>
-                    <Button onClick={() =>
-                        setShowCalendar(prev => !prev)
-                    }
-                        className="!rounded-xl"
-                    >
+                    <Button onClick={() => setShowCalendar(prev => !prev)} className="!rounded-xl">
                         Select Month
                     </Button>
-                </div>
                 {showCalendar
                     &&
                     <div className="absolute z-50 left-1/2 -translate-x-1/2 m-2 top-full">
@@ -143,9 +138,10 @@ const TodoPage = ({
                             highlightSelectedMonth
                             isDayPickerVisible={false}
                             onSelectDate={handleDateChange}
-                            className="absolute z-50 top-full bg-[#EEF2FF] border-[#4F46E5] border-1 left-1/2 -translate-x-1/2 rounded-2xl" />
+                            className="absolute z-50 top-full bg-[#EEF2FF] border-[#4F46E5] border-1 left-1/2 -translate-x-1/2 rounded-2xl !mx-3 sm:!mx-auto" />
                     </div>
                 }
+                </div>
             <div className="flex justify-end">
                 <DatePicker
                     placeholder="Select a date..."

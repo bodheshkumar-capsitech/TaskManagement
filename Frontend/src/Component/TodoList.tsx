@@ -73,7 +73,7 @@ const TodoList = ({
   }
 
   return (
-    <div className="flex flex-col gap-4 mb-10 h-full overflow-y-auto">
+    <div className="flex flex-col gap-4 mb-10 h-full overflow-y-auto hide-scrollbar">
       <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:items-center sm:justify-between">
         <div>{input}</div>
         <Dropdown

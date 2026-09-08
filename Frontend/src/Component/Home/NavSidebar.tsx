@@ -1,5 +1,4 @@
 import type { DrawerProps } from "@fluentui/react-components";
-import * as React from "react";
 import type { JSXElement } from "@fluentui/react-components";
 import {
     AppItem,
@@ -27,13 +26,6 @@ import {
     useRestoreFocusTarget,
 } from "@fluentui/react-components";
 import {
-    Board20Filled,
-    Board20Regular,
-    PersonLightbulb20Filled,
-    PersonLightbulb20Regular,
-    PreviewLink20Filled,
-    PreviewLink20Regular,
-    bundleIcon,
     Person24Color,
     TaskListSquarePerson24Filled,
     ArrowExit24Filled,
@@ -48,7 +40,7 @@ import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../app/store";
-import { useState, useEffect, useLayoutEffect } from "react";
+import { useState, useEffect, useLayoutEffect, useCallback } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { clearDashboardStats } from "../../features/Dashboard/dashboardSlice";
 import { useDispatch } from "react-redux";
@@ -71,12 +63,6 @@ const useStyles = makeStyles({
         width: "260px",
         minWidth: "260px",
         height: "100vh",
-    },
-
-    navItem: {
-        "&[aria-current='page']::before": {
-            display: "none",
-        },
     },
 
     content: {
@@ -102,48 +88,37 @@ const useStyles = makeStyles({
 
 });
 
-const Dashboard = bundleIcon(Board20Filled, Board20Regular);
-const EmployeeSpotlight = bundleIcon(
-    PersonLightbulb20Filled,
-    PersonLightbulb20Regular
-);
-const PerformanceReviews = bundleIcon(
-    PreviewLink20Filled,
-    PreviewLink20Regular
-);
-
 type DrawerType = Required<DrawerProps>["type"];
 
 export const NavSidebar = (): JSXElement => {
-
+    
     const styles = useStyles();
-    const [isOpen, setIsOpen] = React.useState(true);
-    const [enabledLinks, setEnabledLinks] = React.useState(true);
-    const [type, setType] = React.useState<DrawerType>("inline");
-    const [isMultiple, setIsMultiple] = React.useState(true);
+    const [isOpen, setIsOpen] = useState(true);
+    const [type, setType] = useState<DrawerType>("inline");
+    const isMultiple = true; // never toggled — constant instead of dead state
     const navigate = useNavigate();
     const location = useLocation();
-    const restoreFocusTargetAttributes = useRestoreFocusTarget();
-    const context = useContext(AuthContext)
-    const { email, username } = useSelector((state: RootState) => state.profile)
+    const context = useContext(AuthContext);
+    const { email, username } = useSelector((state: RootState) => state.profile);
     const dispatch = useDispatch();
     const queryclient = useQueryClient();
     const [title, setTitle] = useState("Dashboard");
     const [subtitle, setSubtitle] = useState("Overview of your projects and tasks");
-    const [isMobile, setIsMobile] = React.useState(false);
-
-
+    const [isMobile, setIsMobile] = useState(false);
+    
+    
     useEffect(() => {
-        // getSelectedValue();
-        checkScreensize();
-    }, [])
-
+        return checkScreensize();
+    }, []);
+    
     useLayoutEffect(() => {
         contentchecker();
-        getSelectedValue();
-    }, [location.pathname])
+        if (isMobile) {
+            setIsOpen(false);
+        }
+    }, [location.pathname, isMobile]);
 
-    const checkScreensize = () => {
+    const checkScreensize = useCallback(() => {
         const mediaQuery = window.matchMedia("(max-width: 768px)");
         const updateResponsiveState = () => {
             const mobile = mediaQuery.matches;
@@ -158,24 +133,10 @@ export const NavSidebar = (): JSXElement => {
         return () => {
             mediaQuery.removeEventListener("change", updateResponsiveState);
         };
-    }
+    }, []);
 
 
     const onLogout = async () => {
-        // try {
-        //   setTimeout(async () => {
-        //     await logout()
-        //     // dispatch(logoutredux())
-        //     context?.logoutUser()
-        //     navigate("/")
-        //     toast.dismiss();
-        //     toast.success("Logged out sucessfully");
-        //   }, 1000)
-        // }
-        // catch {
-        //   toast.dismiss();
-        //   toast.error("Failed to logout")
-        // }
         logoutMutation.mutate();
     }
 
@@ -206,52 +167,43 @@ export const NavSidebar = (): JSXElement => {
         switch (true) {
             case location.pathname === "/dashboard":
                 return "1";
-
             case location.pathname.startsWith("/home/"):
                 return "2";
-
             case location.pathname === "/ProjectPage":
                 return "2";
-
             case location.pathname === "/TaskPage":
                 return "3";
-
             case location.pathname === "/Profile":
                 return "4";
-
             default:
                 return "1";
         }
     };
-    const selectedValue = getSelectedValue();
 
+    const selectedValue = getSelectedValue();
     const contentchecker = () => {
         if (location.pathname === "/dashboard") {
-            setTitle("Dashboard")
-            setSubtitle("Overview of your projects and tasks")
-            return
-        }
-        else if (location.pathname === "/ProjectPage") {
-            setTitle("Projects")
-            setSubtitle("Manage all your projects")
+            setTitle("Dashboard");
+            setSubtitle("Overview of your projects and tasks");
+            return;
+        } else if (location.pathname === "/ProjectPage") {
+            setTitle("Projects");
+            setSubtitle("Manage all your projects");
+            return;
+        } else if (location.pathname === "/TaskPage") {
+            setTitle("My Tasks");
+            setSubtitle("Manage all your tasks across projects");
+            return;
+        } else if (location.pathname === "/Profile") {
+            setTitle("Profile");
+            setSubtitle("Manage your account information and settings");
+            return;
+        } else if (location.pathname.startsWith("/home/")) {
+            setTitle("My Tasks");
+            setSubtitle("Manage all your tasks across projects");
             return;
         }
-        else if (location.pathname === "/TaskPage") {
-            setTitle("My Tasks")
-            setSubtitle("Manage all your tasks across projects")
-            return;
-        }
-        else if (location.pathname === "/Profile") {
-            setTitle("Profile")
-            setSubtitle("Manage your account information and settings")
-            return;
-        }
-        else if (location.pathname.startsWith("/home/")) {
-            setTitle("My Tasks")
-            setSubtitle("Manage all your tasks across projects")
-            return;
-        }
-    }
+    };
 
     return (
         <div className={`${styles.root} bg-gradient-to-br from-slate-50 via-[#f5f6fa] to-[#eef2ff]`}>

@@ -44,15 +44,17 @@ const Task = () => {
     return (
         <div className="flex h-full flex-col gap-6">
 
-            <div className="flex sm:flex-row flex-col items-center justify-between">
+            <div className="flex sm:flex-row flex-col items-center justify-between gap-2">
                 <Input
                     contentBefore={<Search20Regular />}
                     placeholder="Search tasks by title..."
                 />
+                <div className="flex flex-row w-full sm:w-1/2 items-center justify-between">
                 <TaskPage page={page} pagesize={pagesize} setPage={setPage} total={taskdata.totalcount} />
-                <Badge appearance="tint">
+                <Badge appearance="tint" className="!whitespace-nowrap !w-fit shrink-0">
                     {taskdata.totalcount} Tasks
                 </Badge>
+                </div>
             </div>
 
             <Card className="min-h-0 flex-1 overflow-hidden !rounded-2xl !p-0">

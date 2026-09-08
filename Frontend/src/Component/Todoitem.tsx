@@ -140,7 +140,7 @@ const TodoItem = ({
 
 
   return (
-    <Card className="!rounded-xl border border-[#746fdb] flex flex-col h-full">
+    <Card className="!rounded-xl border border-[#746fdb] flex flex-col h-full hide-scrollbar">
       {isEditing ? (
         <div className="flex flex-col w-full gap-2">
           <Input

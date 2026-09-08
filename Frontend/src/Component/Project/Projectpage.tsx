@@ -1,7 +1,7 @@
 import { Button } from "@fluentui/react-components";
 import type { ProjectPageProps } from "../../types/Project/ProjectPageProps";
 import { Calendar } from "@fluentui/react-calendar-compat";
-import { useState, useRef ,useEffect} from "react";
+import { useState, useRef, useEffect } from "react";
 
 const Projectpage = ({
   page,
@@ -64,62 +64,64 @@ const Projectpage = ({
   return (
     <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
       <div className="flex flex-row">
-      <Button
-        appearance="transparent"
-        disabled={page === 1}
-        onClick={() => onPage(page - 1, pageSize)}
+        <Button
+          appearance="transparent"
+          disabled={page === 1}
+          onClick={() => onPage(page - 1, pageSize)}
         >
-        Previous
-      </Button>
+          Previous
+        </Button>
 
-      <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
 
-        {pages.map((pageNumber) => (
-          <span
-          key={pageNumber}
-          onClick={() => onPage(pageNumber, pageSize)}
-          className={`
+          {pages.map((pageNumber) => (
+            <span
+              key={pageNumber}
+              onClick={() => onPage(pageNumber, pageSize)}
+              className={`
             cursor-pointer
             text-sm
             px-1
             ${page === pageNumber
-              ? "font-bold text-blue-600"
-              : "text-black hover:text-blue-600"
-            }
+                  ? "font-bold text-blue-600"
+                  : "text-black hover:text-blue-600"
+                }
             `}
             >
-            {pageNumber}
-          </span>
-        ))}
+              {pageNumber}
+            </span>
+          ))}
 
-      </div>
-
-      <Button
-        appearance="transparent"
-        disabled={page === totalPages}
-        onClick={() => onPage(page + 1, pageSize)}
-        >
-        Next
-      </Button>
         </div>
-      <div className="relative" ref={filterRef}>
-      <Button onClick={() => setShowCalendar(prev => !prev)} className="!rounded-xl">
-        Select Month
-      </Button>
-      {showCalendar &&
-       <div className="absolute z-50 left-1/2 -translate-x-1/2 top-full mt-3">
-      <Calendar
-      value={date}
-      highlightSelectedMonth
-      isDayPickerVisible={false}
-      onSelectDate={handleDateChange}
-      className="absolute z-50 top-full bg-[#EEF2FF] border-[#4F46E5] border-1 left-1/2 -translate-x-1/2 rounded-2xl"
-      />
+
+        <Button
+          appearance="transparent"
+          disabled={page === totalPages}
+          onClick={() => onPage(page + 1, pageSize)}
+        >
+          Next
+        </Button>
       </div>
-      }
-      </div>
-      <div>
-        {page}/{pageSize}
+      <div className="flex flex-row items-center gap-4">
+        <div className="relative" ref={filterRef}>
+          <Button onClick={() => setShowCalendar(prev => !prev)} className="!rounded-xl">
+            Select Month
+          </Button>
+          {showCalendar &&
+            <div className="absolute z-50 left-1/2 -translate-x-1/2 top-full mt-3">
+              <Calendar
+                value={date}
+                highlightSelectedMonth
+                isDayPickerVisible={false}
+                onSelectDate={handleDateChange}
+                className="absolute z-50 top-full bg-[#EEF2FF] border-[#4F46E5] border-1 left-1/2 -translate-x-1/2 rounded-2xl !mx-4 sm:mx-auto"
+              />
+            </div>
+          }
+        </div>
+        <div>
+          {page}/{pageSize}
+        </div>
       </div>
     </div>
   );

@@ -61,12 +61,13 @@ const TodoForm = ({ onAdd }: TodoFormProps) => {
   };
 
   return (
+    <div>
     <Dialog
       open={open}
       onOpenChange={(_, data) => setOpen(data.open)}
     >
       <DialogTrigger disableButtonEnhancement>
-        <Button appearance="primary" className="!bg-[#4F46E5] !rounded-xl ">
+        <Button appearance="primary" className="!bg-[#4F46E5] !rounded-xl !px-2">
           + Add Todo
         </Button>
       </DialogTrigger>
@@ -170,6 +171,7 @@ const TodoForm = ({ onAdd }: TodoFormProps) => {
         </form>
       </DialogSurface>
     </Dialog>
+    </div>
   );
 };
 

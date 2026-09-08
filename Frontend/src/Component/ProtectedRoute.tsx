@@ -4,6 +4,7 @@ import { checkAuth } from "../api/todoApi";
 import { setLoginData } from "../features/Profile/ProfileSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "@fluentui/react-components";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -37,10 +38,10 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }, []);
 
   if (authenticated === null) {
-    return <div className="flex items-center justify-center h-full w-full">
+    return <div className="flex items-center justify-center h-full w-full bg-white">
       <div>
        <h1 className="flex text-2xl items-center justify-center mt-10">
-       Checking authentication...
+        <Spinner appearance="primary" label="Checking authentication..." />
         </h1> 
         </div>
         </div>;
