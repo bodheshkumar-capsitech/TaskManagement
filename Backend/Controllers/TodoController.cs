@@ -619,4 +619,53 @@ public class TodoController : ControllerBase
         }
         return res;
     }
+
+    [HttpGet("Gettasksbyname")]
+    public async Task<ApiResponse<projectwithtask>> GetTasksbyname(string taskname, CancellationToken cancellation)
+    {
+        var res = new ApiResponse<projectwithtask>();
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (userId == null)
+        {
+            res.Message = "User is not logged in";
+            res.Status = false;
+            res.Result = null;
+            return res;
+        }
+
+        if (string.IsNullOrEmpty(taskname))
+        {
+            res.Message = "task name is empty";
+            res.Status = false;
+            res.Result = null;
+            return res;
+        }
+
+        try
+        {
+            var data = await _todoService.GetTaskbyname(userId, taskname, cancellation);
+            if (data == null)
+            {
+                res.Message = "No task is found for the user";
+                res.Status = false;
+                res.Result = data;
+                return res;
+            }
+
+            res.Message = "Task found sucessfully";
+            res.Status = true;
+            res.Result = data;
+            return res;
+        }
+
+        catch (Exception ex)
+        {
+            res.Message = "Error :" + ex.Message;
+            res.Status = false;
+            res.Result = null;
+        }
+        return res;
+    }
+
 }

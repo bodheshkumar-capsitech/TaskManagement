@@ -4,6 +4,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Projects.Dtos.Common;
 using Projects.Models;
+using System.Text.RegularExpressions;
 
 namespace Projects.Services.TodoService;
 
@@ -38,7 +39,7 @@ public class TodoService : ITodoService
             .FirstOrDefaultAsync();
     }
 
-    public async Task<PaginatedResultDto<Todo>> GetByPage(int pagenumber, int pagesize, string projectId, int month, int year ,DateTime? date)
+    public async Task<PaginatedResultDto<Todo>> GetByPage(int pagenumber, int pagesize, string projectId, int month, int year, DateTime? date)
     {
         if (pagenumber <= 0)
         {
@@ -96,7 +97,7 @@ public class TodoService : ITodoService
     }
 
 
-    public async Task<List<DateWiseTodoDto>> GetDateWiseTasks(int pagenumber, int pagesize, string projectId,int month,int year,DateTime date)
+    public async Task<List<DateWiseTodoDto>> GetDateWiseTasks(int pagenumber, int pagesize, string projectId, int month, int year, DateTime date)
     {
         if (pagenumber <= 0)
         {
@@ -115,8 +116,8 @@ public class TodoService : ITodoService
 
         //var startDate = new DateTime(year, month, 1);
         //var endDate = startDate.AddMonths(1);
-       var startDate = date;
-       var endDate = startDate.AddDays(1);
+        var startDate = date;
+        var endDate = startDate.AddDays(1);
 
         var filter =
             Builders<Todo>.Filter.Eq(x => x.Projectid, projectId) &
@@ -155,7 +156,7 @@ public class TodoService : ITodoService
             }
             })
             .Sort(new BsonDocument("_id", 1))
-            .Skip((pagenumber-1) * pagesize)
+            .Skip((pagenumber - 1) * pagesize)
             .Limit(pagesize)
             .ToListAsync();
 
@@ -172,7 +173,7 @@ public class TodoService : ITodoService
 
         }).ToList();
     }
-    public async Task<PaginatedResultDto<Todo>> GetByPageWithDate(int pagenumber ,int pagesize,string projectId, DateTime date)
+    public async Task<PaginatedResultDto<Todo>> GetByPageWithDate(int pagenumber, int pagesize, string projectId, DateTime date)
     {
         if (pagesize <= 0)
         {
@@ -184,7 +185,7 @@ public class TodoService : ITodoService
 
         var filter = Builders<Todo>.Filter.Eq(x => x.Projectid, projectId) &
             Builders<Todo>.Filter.Gte(x => x.Duedate, startDate) &
-            Builders<Todo>.Filter.Lt(x => x.Duedate,endDate);
+            Builders<Todo>.Filter.Lt(x => x.Duedate, endDate);
 
         var totalcount = await _context.Todos.CountDocumentsAsync(filter);
         var data = await _context.Todos.Find(filter)
@@ -213,7 +214,7 @@ public class TodoService : ITodoService
     //    return todo;
 
     //}
-  
+
     //public async Task<List<Todo>> GetByPriority(Priority priority)
     //{
     //    var filter = Builders<Todo>.Filter.Eq(x => x.priority, priority);
@@ -230,7 +231,7 @@ public class TodoService : ITodoService
 
     public async Task<List<Todo>> GetByStatusAndPriority(
     bool? completed,
-    Priority? priority,string projectId)
+    Priority? priority, string projectId)
     {
         var filter = Builders<Todo>.Filter.Empty;
         filter &= Builders<Todo>.Filter.Eq(x => x.Projectid, projectId);
@@ -264,9 +265,9 @@ public class TodoService : ITodoService
         return await _context.Todos.Find(x => x.Title == title).FirstOrDefaultAsync();
     }
 
-    public async Task CreateAsync(Todo todo,string projectId)
+    public async Task CreateAsync(Todo todo, string projectId)
     {
-        if(projectId == null)
+        if (projectId == null)
         {
             return;
         }
@@ -302,5 +303,78 @@ public class TodoService : ITodoService
         await _context.Todos.DeleteOneAsync(
             x => x.Id == id
         );
+    }
+
+    public async Task<projectwithtask> GetTaskbyname(string userId,string taskname,CancellationToken cancellation)
+    {
+        var projectFilter = Builders<Project>.Filter.Eq(x => x.UserId, userId);
+
+        var result = await _context.Projects
+            .Aggregate()
+
+            .Match(projectFilter)
+
+            .AppendStage<Project>(
+                new BsonDocument(
+                    "$addFields",
+                    new BsonDocument(
+                        "projectIdString",
+                        new BsonDocument("$toString", "$_id")
+                    )
+                )
+            )
+
+            .AppendStage<Project>(
+                new BsonDocument(
+                    "$lookup",
+                    new BsonDocument
+                    {
+                    { "from", "Todos" },
+                    { "localField", "projectIdString" },
+                    { "foreignField", "projectid" },
+                    { "as", "tasks" }
+                    }
+                )
+            )
+
+            .AppendStage<Project>(
+                new BsonDocument(
+                    "$unwind",
+                    "$tasks"
+                )
+            )
+
+            .AppendStage<Project>(
+                new BsonDocument(
+                    "$match",
+                    new BsonDocument(
+                        "tasks.title",
+                        new BsonRegularExpression(
+                            Regex.Escape(taskname),
+                            "i"
+                        )
+                    )
+                )
+            )
+
+            .AppendStage<ProjectTaskDto>(
+                new BsonDocument(
+                    "$project",
+                    new BsonDocument
+                    {
+                    { "_id", 0 },
+                    { "name", "$name" },
+                    { "task", "$tasks" }
+                    }
+                )
+            )
+
+            .ToListAsync(cancellation);
+
+        return new projectwithtask
+        {
+            taskList = result,
+            totalcount = result.Count
+        };
     }
 }

@@ -102,6 +102,12 @@ export const deleteTodo = async (id: string) => {
   await api.delete(`/Todo/Delete/${id}`);
 };
 
+export const getTodosbyname = async (taskname:string) =>
+{
+  const response = await api.get<Apiresponse<ProjectWithTask>>("/Todo/Gettasksbyname", { params: { taskname, }, });
+  return response.data.result;
+}
+
 
 // Auth 
 export const checkAuth = async () => {

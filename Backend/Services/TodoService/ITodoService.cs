@@ -33,4 +33,6 @@ public interface ITodoService
     Task UpdateTodoCompleted(string id);
 
     Task DeleteAsync(string id);
+
+    Task<projectwithtask> GetTaskbyname(string userId, string taskname, CancellationToken cancellation);
 }

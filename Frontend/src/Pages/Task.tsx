@@ -9,22 +9,21 @@ import {
     CheckmarkCircle20Filled,
     CircleHalfFill20Filled,
 } from "@fluentui/react-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useDebounce } from "../hooks/useDebounce";
 import { gettaskswithprojectname } from "../api/todoApi";
 import TaskPage from "../Component/TaskPage";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../app/store";
-import { setTasks, clearTasks } from "../features/Task/taskSlice";
 import { useQuery } from "@tanstack/react-query";
 import type { ProjectWithTask } from "../types/Task/ProjectWithTask";
+import { getTodosbyname } from "../api/todoApi";
 
 
 const Task = () => {
 
     const [page, setPage] = useState(1);
     const [pagesize, setPagesize] = useState(30);
-    const dispatch = useDispatch();
-    const taskdata = useSelector((state: RootState) => state.task.taskData)
+    const [search, setSearch] = useState("");
+    const debouncedSearch = useDebounce(search, 500);
 
 
     const data = useQuery<ProjectWithTask>(
@@ -34,26 +33,39 @@ const Task = () => {
         }
     );
 
-    useEffect(() => {
-        if (data.data) {
-            dispatch(setTasks(data.data))
-        }
-    }, [data.data, dispatch]);
+    const searchData = useQuery({
+        queryKey: ["tasks-search", debouncedSearch],
+        queryFn: () => getTodosbyname(debouncedSearch),
+        enabled: debouncedSearch.trim().length > 0,
+    });
 
+    const isSearching = debouncedSearch.trim().length > 0;
+    const displayedData = isSearching ? searchData.data : data.data;
+    const displayedTasks = displayedData?.taskList ?? [];
 
     return (
         <div className="flex h-full flex-col gap-6">
-
             <div className="flex sm:flex-row flex-col items-center justify-between gap-2">
                 <Input
                     contentBefore={<Search20Regular />}
                     placeholder="Search tasks by title..."
+                    value={search}
+                    onChange={(_, data) => {
+                        setSearch(data.value)
+                    }}
                 />
                 <div className="flex flex-row w-full sm:w-1/2 items-center justify-between">
-                <TaskPage page={page} pagesize={pagesize} setPage={setPage} total={taskdata.totalcount} />
-                <Badge appearance="tint" className="!whitespace-nowrap !w-fit shrink-0">
-                    {taskdata.totalcount} Tasks
-                </Badge>
+                    {!isSearching && (
+                        <TaskPage
+                            page={page}
+                            pagesize={pagesize}
+                            setPage={setPage}
+                            total={data.data?.totalcount ?? 0}
+                        />
+                    )}
+                    <Badge appearance="tint" className="!whitespace-nowrap !w-fit shrink-0">
+                        {displayedData?.totalcount ?? 0} Tasks
+                    </Badge>
                 </div>
             </div>
 
@@ -82,9 +94,8 @@ const Task = () => {
                         </Body1>
                     </div>
                     <div className="h-full overflow-y-auto hide-scrollbar">
-                        {taskdata.taskList.length > 0 ? (
-                            taskdata.taskList.map((item) => (
-
+                        {displayedTasks.length > 0 ? (
+                            displayedTasks.map((item) => (
                                 <div key={item.task.id} className="flex flex-col items-start justify-center sm:grid sm:grid-cols-[2fr_1.3fr_1fr_1fr_1fr] sm:items-center gap-4 border-b px-6 py-4 transition hover:bg-gray-50">
                                     <div className="flex min-w-0 items-center gap-3">
                                         {item.task.completed ? <CheckmarkCircle20Filled className="shrink-0 text-green-500" /> : <CircleHalfFill20Filled className="shrink-0 text-yellow-500" />}
