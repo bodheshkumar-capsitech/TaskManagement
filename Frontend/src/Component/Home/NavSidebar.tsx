@@ -314,7 +314,7 @@ export const NavSidebar = (): JSXElement => {
                                             className="!bg-[#E7000B] !rounded-xl"
                                             >
                                             {logoutMutation.isPending
-                                                ? (<div><Spinner size="tiny"/> Signing Out... </div>)
+                                                ? (<div className="flex items-center gap-2"><Spinner size="tiny"/> Signing Out... </div>)
                                                 : "Sign Out"
                                             }
                                         </Button>
