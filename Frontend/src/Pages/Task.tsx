@@ -3,6 +3,7 @@ import {
     Card,
     Input,
     Body1,
+    Spinner,
 } from "@fluentui/react-components";
 import {
     Search20Regular,
@@ -42,6 +43,7 @@ const Task = () => {
     const isSearching = debouncedSearch.trim().length > 0;
     const displayedData = isSearching ? searchData.data : data.data;
     const displayedTasks = displayedData?.taskList ?? [];
+    const loading = isSearching ? searchData.isFetching : data.isFetching;
 
     return (
         <div className="flex h-full flex-col gap-6">
@@ -94,39 +96,45 @@ const Task = () => {
                         </Body1>
                     </div>
                     <div className="h-full overflow-y-auto hide-scrollbar">
-                        {displayedTasks.length > 0 ? (
-                            displayedTasks.map((item) => (
-                                <div key={item.task.id} className="flex flex-col items-start justify-center sm:grid sm:grid-cols-[2fr_1.3fr_1fr_1fr_1fr] sm:items-center gap-4 border-b px-6 py-4 transition hover:bg-gray-50">
-                                    <div className="flex min-w-0 items-center gap-3">
-                                        {item.task.completed ? <CheckmarkCircle20Filled className="shrink-0 text-green-500" /> : <CircleHalfFill20Filled className="shrink-0 text-yellow-500" />}
-                                        <div className="min-w-0">
-                                            <Body1 className={item.task.completed ? "line-through block truncate font-semibold" : "block truncate font-semibold"}>
-                                                {item.task.title}
-                                            </Body1>
-
-                                            <span className={item.task.completed ? " block truncate text-xs  text-gray-500 line-through" : "block truncate text-xs text-gray-500"}>
-                                                {item.task.description}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <Body1>{item.name}</Body1>
-                                    <Body1>{item.task.duedate ? new Date(item.task.duedate).toISOString().split("T")[0] : ""}</Body1>
-                                    <Badge appearance="tint" color={item.task.priority === "Low" ? "success" : item.task.priority === "Medium" ? "warning" : "danger"} className="w-fit">
-                                        {item.task.priority}
-                                    </Badge>
-                                    <Badge appearance="tint" color={item.task.completed ? "success" : "danger"} className="w-fit">
-                                        {item.task.completed ? "Completed" : "Pending"}
-                                    </Badge>
-                                </div>
-
-                            ))) :
-                            <div className="flex h-full overflow-hidden items-center justify-center">
-                                <Body1 className="text-gray-800">
-                                    No tasks found
-                                </Body1>
+                        {loading ? (
+                            <div className="flex h-full items-center justify-center">
+                                <Spinner size="medium" label="Loading tasks..." />
                             </div>
+                        ) : (
+                            
+                                displayedTasks.length > 0 ? (
+                                    displayedTasks.map((item) => (
+                                        <div key={item.task.id} className="flex flex-col items-start justify-center sm:grid sm:grid-cols-[2fr_1.3fr_1fr_1fr_1fr] sm:items-center gap-4 border-b px-6 py-4 transition hover:bg-gray-50">
+                                            <div className="flex min-w-0 items-center gap-3">
+                                                {item.task.completed ? <CheckmarkCircle20Filled className="shrink-0 text-green-500" /> : <CircleHalfFill20Filled className="shrink-0 text-yellow-500" />}
+                                                <div className="min-w-0">
+                                                    <Body1 className={item.task.completed ? "line-through block truncate font-semibold" : "block truncate font-semibold"}>
+                                                        {item.task.title}
+                                                    </Body1>
 
-                        }
+                                                    <span className={item.task.completed ? " block truncate text-xs  text-gray-500 line-through" : "block truncate text-xs text-gray-500"}>
+                                                        {item.task.description}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <Body1>{item.name}</Body1>
+                                            <Body1>{item.task.duedate ? new Date(item.task.duedate).toISOString().split("T")[0] : ""}</Body1>
+                                            <Badge appearance="tint" color={item.task.priority === "Low" ? "success" : item.task.priority === "Medium" ? "warning" : "danger"} className="w-fit">
+                                                {item.task.priority}
+                                            </Badge>
+                                            <Badge appearance="tint" color={item.task.completed ? "success" : "danger"} className="w-fit">
+                                                {item.task.completed ? "Completed" : "Pending"}
+                                            </Badge>
+                                        </div>
+
+                                    ))) :
+                                    <div className="flex h-full overflow-hidden items-center justify-center">
+                                        <Body1 className="text-gray-800">
+                                            No tasks found
+                                        </Body1>
+                                    </div>
+
+                            )}
                     </div>
 
                 </div>

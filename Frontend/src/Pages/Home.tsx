@@ -611,7 +611,7 @@ const Home = () => {
       <div className="flex-1 min-h-0 overflow-y-auto hide-scrollbar">
         {isLoading ? (
           <div className="flex h-full w-full items-center justify-center">
-            <Spinner label="Loading todos..." />
+            <Spinner label="Loading tasks..." />
           </div>
         ) : (
           <TodoList
