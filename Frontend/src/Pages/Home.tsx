@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 import { getProjectById } from "../api/todoApi";
 import { useMemo, useCallback } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { id } from "zod/v4/locales";
 import type { PaginatedResult } from "../types/PaginatedResult";
 
 export const formatDate = (date: string | Date | null) => {
@@ -611,7 +610,9 @@ const Home = () => {
       </div>
       <div className="flex-1 min-h-0 overflow-y-auto hide-scrollbar">
         {isLoading ? (
-          <Spinner label="Loading todos...." />
+          <div className="flex h-full w-full items-center justify-center">
+            <Spinner label="Loading todos..." />
+          </div>
         ) : (
           <TodoList
             todos={filterTodos}

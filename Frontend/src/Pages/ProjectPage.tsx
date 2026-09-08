@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Title3, Button, Dialog, DialogTrigger, DialogSurface, DialogTitle, DialogBody, DialogActions, DialogContent } from "@fluentui/react-components";
+import { Title3, Button, Dialog, DialogTrigger, DialogSurface, DialogTitle, DialogBody, DialogActions, DialogContent, Spinner } from "@fluentui/react-components";
 import { getProjects, getProjectsByPage, createProject, updateProject, deleteProject } from "../api/todoApi";
 import type { Project } from "../types/Project/Project";
 import ProjectForm from "../Component/Project/ProjectForm";
@@ -218,11 +218,16 @@ const ProjectPage = () => {
             onCancel={clearform}
           />
         </div>
-        
+
       </div>
 
       <div className="relative z-0 flex overflow-y-auto hide-scrollbar">
-        <ProjectList projects={projects} loading={loading} onEdit={handleEdit} onDelete={handleDelete} />
+        {loading ? (
+          <div className="flex h-full w-full items-center justify-center">
+            <Spinner label="Loading projects..." />
+          </div>
+        ) : (
+          <ProjectList projects={projects} loading={loading} onEdit={handleEdit} onDelete={handleDelete} />)}
       </div>
     </div>
   );
