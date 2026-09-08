@@ -18,6 +18,7 @@ import {
     DialogActions,
     DialogContent,
     Avatar,
+    Spinner,
 } from "@fluentui/react-components";
 
 import {
@@ -313,7 +314,7 @@ export const NavSidebar = (): JSXElement => {
                                             className="!bg-[#E7000B] !rounded-xl"
                                             >
                                             {logoutMutation.isPending
-                                                ? "Signing Out..."
+                                                ? (<div><Spinner size="tiny"/> Signing Out... </div>)
                                                 : "Sign Out"
                                             }
                                         </Button>
