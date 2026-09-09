@@ -95,6 +95,10 @@ namespace Projects.Models
         [MinLength(6)]
         [DataType(DataType.Password)]
         public string Password { get; set; } = "welcome";
+
+        [Required]
+        [MinLength(4)]
+        public string Fullname { get; set; }
     }
 
     public class User

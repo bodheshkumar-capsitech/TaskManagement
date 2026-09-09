@@ -2,7 +2,7 @@ export interface Loginresponse
 {
     token : string;
     email : string;
-    userName: string;
+    firstname: string;
     role: string;
 
 }

@@ -1,6 +1,6 @@
 export interface CheckAuthResponse {
   authenticated: boolean;
   email: string;
-  username: string;
+  firstname: string;
   role: string;
 }

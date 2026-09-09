@@ -1,14 +1,14 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface ProfileState {
-    username: string;
+    firstname: string;
     email: string;
     role: string;
     isLoggedIn: boolean;
 }
 
 const initialState: ProfileState = {
-    username: "",
+    firstname: "",
     email: "",
     role: "",
     isLoggedIn: false,
@@ -22,23 +22,23 @@ const ProfileSlice = createSlice({
         setLoginData: (
             state,
             action: PayloadAction<{
-                username: string;
+                firstname: string;
                 email: string;
                 role: string;
             }>
         ) => {
-            state.username = action.payload.username;
+            state.firstname = action.payload.firstname;
             state.email = action.payload.email;
             state.role = action.payload.role;
             state.isLoggedIn = true;
         },
 
 
-        setUsername: (
+        setaFirstname: (
             state,
             action: PayloadAction<string>
         ) => {
-            state.username = action.payload;
+            state.firstname = action.payload;
         },
 
 
@@ -69,7 +69,7 @@ const ProfileSlice = createSlice({
         logoutRedux: (
             state
         ) => {
-            state.username = "";
+            state.firstname = "";
             state.email = "";
             state.role = "";
             state.isLoggedIn = false;
@@ -78,7 +78,7 @@ const ProfileSlice = createSlice({
         clearAuth: (
             state
         ) => {
-            state.username = "";
+            state.firstname = "";
             state.email = "";
             state.role = "";
             state.isLoggedIn = false;
@@ -89,7 +89,7 @@ const ProfileSlice = createSlice({
 
 export const {
     setLoginData,
-    setUsername,
+    setaFirstname,
     setEmail,
     setRole,
     setIsLoggedIn,

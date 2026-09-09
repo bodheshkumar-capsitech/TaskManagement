@@ -361,7 +361,7 @@ namespace Projects.Controllers
             {
                 authenticated = true,
                 email = user.Email,
-                username = user.UserName,
+                firstname = user.Name.First,
                 role = user.Role
             });
         }
@@ -433,6 +433,17 @@ namespace Projects.Controllers
                     return response;
                 }
 
+                if (string.IsNullOrEmpty(req.Fullname))
+                {
+                    response.Status = false;
+                    response.Message = "Please enter full name";
+                    response.Result = false;
+                    return response;
+                }
+
+                var nameParts = req.Fullname.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+
                 // Create new user
                 var user = new ApplicationUser
                 {
@@ -441,7 +452,12 @@ namespace Projects.Controllers
                     EmailConfirmed = true,
                     Status = ApplicationUserStatus.Active,
                     Role = "USER",
-                    Roles = new List<string> { "USER" }
+                    Roles = new List<string> { "USER" },
+                    Name = new Data.NameModel
+                    {
+                        First = nameParts.FirstOrDefault() ?? "",
+                        Last = nameParts.Length > 1 ? string.Join(" ", nameParts.Skip(1)) : ""
+                    }
                 };
 
                 var result = await _userManager.CreateAsync(user, req.Password);

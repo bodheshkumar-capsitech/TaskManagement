@@ -100,7 +100,7 @@ export const NavSidebar = (): JSXElement => {
     const navigate = useNavigate();
     const location = useLocation();
     const context = useContext(AuthContext);
-    const { email, username } = useSelector((state: RootState) => state.profile);
+    const { email, firstname } = useSelector((state: RootState) => state.profile);
     const dispatch = useDispatch();
     const queryclient = useQueryClient();
     const [title, setTitle] = useState("Dashboard");
@@ -332,7 +332,7 @@ export const NavSidebar = (): JSXElement => {
                                     />
                                 <div>
                                     <h2 className="text-sm font-semibold text-gray-900">
-                                        {username}
+                                        {firstname}
                                     </h2>
 
                                     <p className="text-sm text-gray-500">

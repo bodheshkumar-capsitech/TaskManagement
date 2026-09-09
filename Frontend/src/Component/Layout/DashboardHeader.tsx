@@ -14,7 +14,7 @@ interface DashboardHeaderProps {
 }
 
 const DashboardHeader = ({ title, subtitle, isNavOpen, onOpenNav }: DashboardHeaderProps) => {
-  const { username, email } = useSelector((state: RootState) => state.profile);
+  const { firstname, email } = useSelector((state: RootState) => state.profile);
   const [open,setOpen] = useState(false)
   const navigate = useNavigate();
 
@@ -69,7 +69,7 @@ const DashboardHeader = ({ title, subtitle, isNavOpen, onOpenNav }: DashboardHea
                     color="purple"
                   />
                   <p className="mt-2 text-sm font-semibold text-gray-900 break-all">
-                    {username}
+                    {firstname}
                   </p>
                   <p className="mt-0.5 max-w-full text-xs text-gray-500 break-all">
                     {email}

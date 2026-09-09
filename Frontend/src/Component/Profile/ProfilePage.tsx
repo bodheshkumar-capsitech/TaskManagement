@@ -34,7 +34,7 @@ import { useState } from "react";
 import catimage from "../../assets/cat.png"
 
 const ProfilePage = () => {
-  const { email, username, role } = useSelector((state: RootState) => state.profile)
+  const { email, firstname, role } = useSelector((state: RootState) => state.profile)
   const navigate = useNavigate();
   const [checked, setChecked] = useState(false);
 
@@ -125,7 +125,7 @@ const ProfilePage = () => {
 
             <div>
               <h2 className="text-lg font-semibold text-gray-900">
-                {username}
+                {firstname}
               </h2>
 
               <p className="text-sm text-gray-500">
@@ -141,7 +141,7 @@ const ProfilePage = () => {
           <div className="mb-5">
             <Field label="Username">
               <Input
-                value={username}
+                value={firstname}
                 readOnly
                 contentBefore={
                   <Person24Regular />

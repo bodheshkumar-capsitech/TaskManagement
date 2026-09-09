@@ -24,7 +24,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         dispatch(setLoginData(
           {
             email:result.email,
-            username:result.username,
+            firstname:result.firstname,
             role:result.role
           }
         ))

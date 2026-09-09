@@ -128,8 +128,8 @@ export const login = async (email: string, password: string) => {
   return response.data.result
 }
 
-export const register = async (email: string, password: string) => {
-  const response = await api.post<Apiresponse<Registerresponse>>(`/Auth/Register`, { Email: email, Password: password });
+export const register = async (email: string, password: string, fullname:string) => {
+  const response = await api.post<Apiresponse<Registerresponse>>(`/Auth/Register`, { Email: email, Password: password, FullName: fullname });
   toast.dismiss()
   return response.data.result
 }
