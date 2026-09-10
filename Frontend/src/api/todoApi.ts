@@ -14,6 +14,7 @@ import type { Project } from "../types/Project/Project";
 import type { DateWiseTodo } from "../types/DateWiseTodo";
 import type { DashboardStats } from "../types/Dashboard/DashboardStats";
 import type { ProjectWithTask } from "../types/Task/ProjectWithTask";
+import type { Users } from "../types/Users/Users";
 
 
 //Todos
@@ -245,5 +246,14 @@ export const gettaskbyProjectStats = async () =>
 export const getalltaskcountbyPriority = async () =>
 {
   const response = await api.get<Apiresponse<TaskPriority>>("/Project/GetAllTaskCountbyPriorityStats");
+  return response.data.result;
+}
+
+
+// Users
+
+export const getAllUsers = async () =>
+{
+  const response = await api.get<Apiresponse<Users>>("/Auth/GetAllUsers");
   return response.data.result;
 }

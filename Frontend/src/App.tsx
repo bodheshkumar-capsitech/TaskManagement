@@ -13,6 +13,7 @@ const LoginPage = lazy(() => import("./Component/LoginPage"));
 const DashboardPage = lazy(() => import("./Pages/Dashboard"))
 const NavSidebarPage = lazy(() => import("./Component/Home/NavSidebar"))
 const ProfilePage = lazy(() => import("./Component/Profile/ProfilePage"))
+const UserPage = lazy(() => import("./Pages/UsersPage"))
 
 
 
@@ -56,6 +57,10 @@ function App() {
                   <Route
                     path="/home/:projectId"
                     element={<Home />}
+                  />
+                   <Route
+                    path="/UsersPage"
+                    element={<UserPage/>}
                   />
 
                 </Route>

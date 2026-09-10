@@ -92,7 +92,7 @@ const useStyles = makeStyles({
 type DrawerType = Required<DrawerProps>["type"];
 
 export const NavSidebar = (): JSXElement => {
-    
+
     const styles = useStyles();
     const [isOpen, setIsOpen] = useState(true);
     const [type, setType] = useState<DrawerType>("inline");
@@ -106,12 +106,12 @@ export const NavSidebar = (): JSXElement => {
     const [title, setTitle] = useState("Dashboard");
     const [subtitle, setSubtitle] = useState("Overview of your projects and tasks");
     const [isMobile, setIsMobile] = useState(false);
-    
-    
+
+
     useEffect(() => {
         return checkScreensize();
     }, []);
-    
+
     useLayoutEffect(() => {
         contentchecker();
         if (isMobile) {
@@ -176,6 +176,8 @@ export const NavSidebar = (): JSXElement => {
                 return "3";
             case location.pathname === "/Profile":
                 return "4";
+            case location.pathname === "/UsersPage":
+                return "5";
             default:
                 return "1";
         }
@@ -204,147 +206,160 @@ export const NavSidebar = (): JSXElement => {
             setSubtitle("Manage all your tasks across projects");
             return;
         }
+        else if (location.pathname === "/UsersPage") {
+            setTitle("Users");
+            setSubtitle("Manage all users and their access");
+            return;
+        }
     };
 
     return (
         <div className={`${styles.root} bg-gradient-to-br from-slate-50 via-[#f5f6fa] to-[#eef2ff]`}>
-                <NavDrawer
-                    selectedValue={selectedValue}
-                    open={isOpen}
-                    type={type}
-                    multiple={isMultiple}
-                    className={styles.nav}
-                    onOpenChange={( _,data) =>
-                    {
-                        if(isMobile)
-                        {
-                            setIsOpen(data.open);
-                        }
+            <NavDrawer
+                selectedValue={selectedValue}
+                open={isOpen}
+                type={type}
+                multiple={isMultiple}
+                className={styles.nav}
+                onOpenChange={(_, data) => {
+                    if (isMobile) {
+                        setIsOpen(data.open);
                     }
+                }
+                }
+                onNavItemSelect={(_, data) => {
+
+                    switch (data.value) {
+                        case "1":
+                            navigate("/dashboard");
+                            break;
+                        case "2":
+                            navigate("/ProjectPage");
+                            break;
+                        case "3":
+                            navigate("/TaskPage");
+                            break;
+                        case "4":
+                            navigate("/Profile");
+                            break;
+                        case "5":
+                            navigate("/UsersPage")
+                            break
+                        default:
+                            break;
                     }
-                    onNavItemSelect={(_, data) => {
-                        
-                        switch (data.value) {
-                            case "1":
-                                navigate("/dashboard");
-                                break;
-                            case "2":
-                                navigate("/ProjectPage");
-                                break;
-                            case "3":
-                                navigate("/TaskPage");
-                                break;
-                            case "4":
-                                navigate("/Profile");
-                                break;
-                            default:
-                                break;
-                        }
-                    }}
-                    >
-                    <NavDrawerHeader className="!bg-white">
-                        {isMobile &&
-                            <Tooltip content="Close Navigation" relationship="label">
-                                <Hamburger onClick={() => setIsOpen(!isOpen)} />
-                            </Tooltip>}
-                        <div className="flex items-center gap-3 m-2.5">
-                            <div className="w-9 h-9 rounded-full bg-[#4F46E5] flex items-center justify-center">
-                                <CheckSquare size={18} className="text-white" />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[15px] font-semibold text-[#0F172A] leading-tight">
-                                    TaskFlow
-                                </span>
-                                <span className="text-[11px] text-[#64748B] mt-1">
-                                    Project Management
-                                </span>
-                            </div>
+                }}
+            >
+                <NavDrawerHeader className="!bg-white">
+                    {isMobile &&
+                        <Tooltip content="Close Navigation" relationship="label">
+                            <Hamburger onClick={() => setIsOpen(!isOpen)} />
+                        </Tooltip>}
+                    <div className="flex items-center gap-3 m-2.5">
+                        <div className="w-9 h-9 rounded-full bg-[#4F46E5] flex items-center justify-center">
+                            <CheckSquare size={18} className="text-white" />
                         </div>
-                    </NavDrawerHeader>
-                    <NavDrawerBody className="!bg-white">
+                        <div className="flex flex-col">
+                            <span className="text-[15px] font-semibold text-[#0F172A] leading-tight">
+                                TaskFlow
+                            </span>
+                            <span className="text-[11px] text-[#64748B] mt-1">
+                                Project Management
+                            </span>
+                        </div>
+                    </div>
+                </NavDrawerHeader>
+                <NavDrawerBody className="!bg-white">
                     <NavSectionHeader className="text-gray-500">Main Menu</NavSectionHeader>
 
-                        <NavItem icon={<Board24Regular />} value="1" className={selectedValue === "1" ? "!bg-[#EEF2FF] !rounded-full !text-[#4F46E5]" : "!bg-white"}>
-                            Dashboard
-                        </NavItem>
-                        <NavItem icon={<TaskListSquarePerson24Filled />} value="2" className={selectedValue === "2" ? "!bg-[#EEF2FF] !rounded-full !text-[#4F46E5]" : "!bg-white"}>
-                            Projects
-                        </NavItem>
-                         <NavItem icon={<ClipboardTask24Regular />} value="3" className={selectedValue === "3" ? "!bg-[#EEF2FF] !rounded-full !text-[#4F46E5]" : "!bg-white"}>
-                            My Tasks
-                        </NavItem>
-                        <NavItem
-                            icon={<Person24Color />}
-                            value="4"
-                            className={selectedValue === "4" ? "!bg-[#EEF2FF] !rounded-full !text-[#4F46E5]" : "!bg-white"}
+                    <NavItem icon={<Board24Regular />} value="1" className={selectedValue === "1" ? "!bg-[#EEF2FF] !rounded-full !text-[#4F46E5]" : "!bg-white"}>
+                        Dashboard
+                    </NavItem>
+                    <NavItem icon={<TaskListSquarePerson24Filled />} value="2" className={selectedValue === "2" ? "!bg-[#EEF2FF] !rounded-full !text-[#4F46E5]" : "!bg-white"}>
+                        Projects
+                    </NavItem>
+                    <NavItem icon={<ClipboardTask24Regular />} value="3" className={selectedValue === "3" ? "!bg-[#EEF2FF] !rounded-full !text-[#4F46E5]" : "!bg-white"}>
+                        My Tasks
+                    </NavItem>
+                    <NavItem
+                        icon={<Person24Color />}
+                        value="4"
+                        className={selectedValue === "4" ? "!bg-[#EEF2FF] !rounded-full !text-[#4F46E5]" : "!bg-white"}
+                    >
+                        Profile
+                    </NavItem>
+                     <NavItem
+                        icon={<Person24Color />}
+                        value="5"
+                        className={selectedValue === "5" ? "!bg-[#EEF2FF] !rounded-full !text-[#4F46E5]" : "!bg-white"}
+                    >
+                        Users
+                    </NavItem>
+                </NavDrawerBody>
+                <NavDrawerFooter className="bg-white !py-4 !gap-2">
+
+                    <Dialog>
+                        <DialogTrigger disableButtonEnhancement>
+                            <AppItem
+                                icon={<ArrowExit24Filled />}
+                                className="!text-[#E7000B] !font-normal !bg-white"
                             >
-                            Profile
-                        </NavItem>
-                    </NavDrawerBody>
-                    <NavDrawerFooter className="bg-white !py-4 !gap-2">
+                                Sign Out
+                            </AppItem>
+                        </DialogTrigger>
 
-                        <Dialog>
-                            <DialogTrigger disableButtonEnhancement>
-                                <AppItem
-                                    icon={<ArrowExit24Filled />}
-                                    className="!text-[#E7000B] !font-normal !bg-white"
-                                    >
-                                    Sign Out
-                                </AppItem>
-                            </DialogTrigger>
-
-                            <DialogSurface className="!rounded-2xl !max-w-[384px] !sm:max-h-[223px]">
-                                <DialogBody>
-                                    <DialogTitle className="!my-1">
-                                        Sign Out?
-                                    </DialogTitle>
-                                    <DialogContent className="!mt-2">
-                                        Are you sure you want to sign out? You will need to sign in again to access your projects.
-                                    </DialogContent>
-                                    <DialogActions className="!mt-2">
-                                        <DialogTrigger disableButtonEnhancement>
-                                            <Button appearance="secondary" className="!rounded-xl">
-                                                Cancel
-                                            </Button>
-                                        </DialogTrigger>
-                                        <Button
-                                            appearance="primary"
-                                            onClick={onLogout}
-                                            disabled={logoutMutation.isPending}
-                                            className="!bg-[#E7000B] !rounded-xl"
-                                            >
-                                            {logoutMutation.isPending
-                                                ? (<div className="flex items-center gap-2"><Spinner size="tiny"/> Signing Out... </div>)
-                                                : "Sign Out"
-                                            }
+                        <DialogSurface className="!rounded-2xl !max-w-[384px] !sm:max-h-[223px]">
+                            <DialogBody>
+                                <DialogTitle className="!my-1">
+                                    Sign Out?
+                                </DialogTitle>
+                                <DialogContent className="!mt-2">
+                                    Are you sure you want to sign out? You will need to sign in again to access your projects.
+                                </DialogContent>
+                                <DialogActions className="!mt-2">
+                                    <DialogTrigger disableButtonEnhancement>
+                                        <Button appearance="secondary" className="!rounded-xl">
+                                            Cancel
                                         </Button>
-                                    </DialogActions>
-                                </DialogBody>
-                            </DialogSurface>
-                        </Dialog>
-                        <div className="flex flex-row bg-gradient-to-br from-slate-50 via-[#f5f6fa] to-[#eef2ff] rounded-xl p-2">
-                            <div className="flex items-center gap-4">
-                                <Avatar
-                                    // name={username}
-                                    image={{src:catimage}}
-                                    size={32}
-                                    color="purple"
-                                    />
-                                <div>
-                                    <h2 className="text-sm font-semibold text-gray-900">
-                                        {firstname}
-                                    </h2>
+                                    </DialogTrigger>
+                                    <Button
+                                        appearance="primary"
+                                        onClick={onLogout}
+                                        disabled={logoutMutation.isPending}
+                                        className="!bg-[#E7000B] !rounded-xl"
+                                    >
+                                        {logoutMutation.isPending
+                                            ? (<div className="flex items-center gap-2"><Spinner size="tiny" /> Signing Out... </div>)
+                                            : "Sign Out"
+                                        }
+                                    </Button>
+                                </DialogActions>
+                            </DialogBody>
+                        </DialogSurface>
+                    </Dialog>
+                    <div className="flex flex-row bg-gradient-to-br from-slate-50 via-[#f5f6fa] to-[#eef2ff] rounded-xl p-2">
+                        <div className="flex items-center gap-4">
+                            <Avatar
+                                // name={username}
+                                image={{ src: catimage }}
+                                size={32}
+                                color="purple"
+                            />
+                            <div>
+                                <h2 className="text-sm font-semibold text-gray-900">
+                                    {firstname}
+                                </h2>
 
-                                    <p className="text-sm text-gray-500">
-                                        {email}
-                                    </p>
-                                </div>
-
+                                <p className="text-sm text-gray-500">
+                                    {email}
+                                </p>
                             </div>
-                        </div>
 
-                    </NavDrawerFooter>
-                </NavDrawer>
+                        </div>
+                    </div>
+
+                </NavDrawerFooter>
+            </NavDrawer>
 
             <div className={styles.content}>
                 {/* {isOpen && 

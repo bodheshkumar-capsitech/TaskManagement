@@ -1087,5 +1087,45 @@ namespace Projects.Controllers
             return response;
         }
         #endregion
+
+        [HttpGet("GetAllUsers")]
+        public async Task<ApiResponse<List<Users>>> GetAllUsers()
+        {
+            var res = new ApiResponse<List<Users>>();
+            try
+            {
+                var users = await _userManager.Users.ToListAsync();
+                if (users.Count == 0)
+                {
+                    res.Message = "All users fetched sucessfully";
+                    res.Status = false;
+                    res.Result = null;
+                }
+                var result = new List<Users>();
+                foreach (var user in users)
+                {
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    result.Add(new Users
+                    {
+                        Username = user.UserName ?? string.Empty,
+                        Email = user.Email ?? string.Empty,
+                        Role = roles.FirstOrDefault() ?? "User",
+                        Status = "Active"
+                    });
+                }
+                res.Message = "Users fetched sucessfully";
+                res.Status = true;
+                res.Result = result;
+            }
+            catch (Exception ex)
+            {
+                res.Message = "Error :" + ex.Message;
+                res.Status = false;
+                res.Result = null;
+            }
+
+            return res;
+        }
     }
 }
