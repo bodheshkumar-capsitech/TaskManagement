@@ -24,14 +24,14 @@ import {
 import {
     Tooltip,
     makeStyles,
-    useRestoreFocusTarget,
 } from "@fluentui/react-components";
 import {
     Person24Color,
-    TaskListSquarePerson24Filled,
     ArrowExit24Filled,
     ClipboardTask24Regular,
     Board24Regular,
+    TaskListSquareLtr24Regular,
+    TaskListSquarePerson24Regular,
 } from "@fluentui/react-icons";
 import { Outlet, useNavigate, useLocation, data } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
@@ -275,7 +275,7 @@ export const NavSidebar = (): JSXElement => {
                     <NavItem icon={<Board24Regular />} value="1" className={selectedValue === "1" ? "!bg-[#EEF2FF] !rounded-full !text-[#4F46E5]" : "!bg-white"}>
                         Dashboard
                     </NavItem>
-                    <NavItem icon={<TaskListSquarePerson24Filled />} value="2" className={selectedValue === "2" ? "!bg-[#EEF2FF] !rounded-full !text-[#4F46E5]" : "!bg-white"}>
+                    <NavItem icon={<TaskListSquareLtr24Regular />} value="2" className={selectedValue === "2" ? "!bg-[#EEF2FF] !rounded-full !text-[#4F46E5]" : "!bg-white"}>
                         Projects
                     </NavItem>
                     <NavItem icon={<ClipboardTask24Regular />} value="3" className={selectedValue === "3" ? "!bg-[#EEF2FF] !rounded-full !text-[#4F46E5]" : "!bg-white"}>
@@ -289,7 +289,7 @@ export const NavSidebar = (): JSXElement => {
                         Profile
                     </NavItem>
                      <NavItem
-                        icon={<Person24Color />}
+                        icon={<TaskListSquarePerson24Regular />}
                         value="5"
                         className={selectedValue === "5" ? "!bg-[#EEF2FF] !rounded-full !text-[#4F46E5]" : "!bg-white"}
                     >

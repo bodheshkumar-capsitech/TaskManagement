@@ -35,10 +35,10 @@ const UserFilters: React.FC<UserFiltersProps> = ({
     selectedStatus !== "All";
 
   return (
-    <div className="flex flex-col lg:flex-row gap-3">
+    <div className="flex flex-col lg:flex-row gap-3 my-2">
       <div className="flex-1">
         <Input
-          className="w-full"
+          className="w-full sm:w-1/2"
           size="large"
           placeholder="Search by username or email..."
           value={search}

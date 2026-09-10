@@ -17,7 +17,7 @@ interface UserTableProps {
 
 const UserTable: React.FC<UserTableProps> = ({ users }) => {
   return (
-    <div className="h-full overflow-y-auto">
+    <div className="h-full overflow-y-auto hide-scrollbar">
       <Table
         aria-label="Users table"
         size="medium"
@@ -35,7 +35,7 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
         <TableBody>
           {users.map((user, index) => (
             <TableRow key={`${user.email}-${index}`}>
-              <TableCell>
+              <TableCell className="!py-2">
                 <div className="flex items-center gap-3">
                   <Avatar
                     name={user.username}

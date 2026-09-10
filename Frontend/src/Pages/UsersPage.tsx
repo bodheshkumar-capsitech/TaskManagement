@@ -26,11 +26,10 @@ const UsersPage: React.FC = () => {
   const loadUsers = async () => {
     try {
       setLoading(true);
-
       const data = await getAllUsers();
-
-    //   setUsers(data);
-    } catch (error) {
+      setUsers(Array.isArray(data) ? data : [data]);
+    } 
+    catch (error) {
       console.error("Error fetching users:", error);
     } finally {
       setLoading(false);
@@ -91,14 +90,11 @@ const UsersPage: React.FC = () => {
     selectedStatus !== "All";
 
   return (
-    <div className="h-full min-h-0 flex flex-col p-5 md:p-6 bg-gray-50">
-
-      {/* Header + Filters */}
-      <div className="flex flex-col gap-4 mb-5">
+    <div className="h-full flex flex-col bg-gradient-to-br from-slate-50 via-[#f5f6fa] to-[#eef2ff]">
+      <div className="flex flex-col gap-2">
         <UsersHeader
           totalUsers={users.length}
         />
-
         <UserFilters
           search={search}
           selectedRole={selectedRole}
@@ -109,8 +105,6 @@ const UsersPage: React.FC = () => {
           onClear={clearFilters}
         />
       </div>
-
-      {/* Content */}
       <div className="flex-1 min-h-0 overflow-hidden bg-white border border-gray-200 rounded-xl">
 
         {loading ? (
@@ -131,8 +125,6 @@ const UsersPage: React.FC = () => {
           />
         )}
       </div>
-
-      {/* Footer */}
       {!loading && users.length > 0 && (
         <div className="flex justify-between items-center mt-3 text-sm text-gray-500">
           <span>
