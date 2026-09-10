@@ -137,11 +137,12 @@ const TasksByProjectCard = ({ maxValue }: TasksByProjectCardProps) => {
           </div>
         )
       }
-
-      <div className="flex items-center gap-4 justify-end mt-2 text-xs text-gray-500">
-        <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-indigo-300" /> Total</span>
-        <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-indigo-600" /> Completed</span>
-      </div>
+      {taskstats.length > 0 &&
+        <div className="flex items-center gap-4 justify-end mt-2 text-xs text-gray-500">
+          <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-indigo-300" /> Total</span>
+          <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-indigo-600" /> Completed</span>
+        </div>
+      }
     </div>
   );
 };

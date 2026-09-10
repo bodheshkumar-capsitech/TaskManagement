@@ -67,14 +67,14 @@ const taskStatus = [
   return (
     <div className="h-full flex bg-gradient-to-br from-slate-50 via-[#f5f6fa] to-[#eef2ff] overflow-hidden">
       <div className="flex-1 flex flex-col min-w-0">
-        <div className="shrink-0">
-        {/* <DashboardHeader
+        {/* <div className="shrink-0">
+        <DashboardHeader
           title="Dashboard"
           subtitle="Overview of your projects and tasks"
           // isNavOpen={isNavOpen}
           // onOpenNav={() => setIsNavOpen(true)}
-          /> */}
-          </div>
+          />
+          </div> */}
 
         <div className="flex-1 bg-gradient-to-br from-slate-50 via-[#f5f6fa] to-[#eef2ff] overflow-y-auto overflow-x-hidden p-6 flex flex-col gap-6 hide-scrollbar">
           <StatsRow stats={stat} />
