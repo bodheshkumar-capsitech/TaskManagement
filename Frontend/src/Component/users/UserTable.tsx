@@ -17,11 +17,11 @@ interface UserTableProps {
 
 const UserTable: React.FC<UserTableProps> = ({ users }) => {
   return (
-    <div className="h-full overflow-y-auto hide-scrollbar">
+    <div className="h-full w-full overflow-x-auto overflow-y-auto hide-scrollbar">
       <Table
         aria-label="Users table"
         size="medium"
-        className="w-full"
+        className="w-full min-w-[600px]"
       >
         <TableHeader>
           <TableRow>
